@@ -24,19 +24,13 @@ int main() {
             thisChar = getchar();
         }
 
-       /* if (list == NULL) {
-            continue;
-        }
-        if (list->head == NULL) {
-            freeList(list);
-            continue;
-        }*/
-
         clearSpaces(list);
         printList(list);
-        int wordsHelperArraySize;
-        WordHelper *wordsHelperArray = findWords(list, &wordsHelperArraySize);
 
+        int wordsHelperArraySize;
+        // find words divided by spaces and their sorted char sets
+        WordHelper *wordsHelperArray = findWords(list, &wordsHelperArraySize);
+        // find required words using their char sets
         findRequiredWords(wordsHelperArray, wordsHelperArraySize);
 
         printf("Gotten table: \n");
@@ -52,6 +46,7 @@ int main() {
         free(outputStr);
         freeWordArray(wordsHelperArray, wordsHelperArraySize);
         freeList(list);
+
         printf("Please, input string: ");
         thisChar = getchar();
     }

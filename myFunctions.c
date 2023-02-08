@@ -30,7 +30,7 @@ int addNode(List *list, char symbol) {
         list->head = new;
         list->tail = new;
     }
-        // is list is not empty past it as the last
+    // is list is not empty past it as the last
     else {
         list->tail->next = new;
         list->tail = new;
