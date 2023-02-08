@@ -33,6 +33,9 @@ void clearSpaces(List *list);
 
 char *getSortedSet(char *inputStr);
 
-void findRequiredWords(WordHelper *wordsArray, int wordsArraySize)
+void findRequiredWords(WordHelper *wordsArray, int wordsArraySize);
 
+char *generateOutputString(WordHelper *wordsArray, int wordsArraySize);
+
+void freeWordArray(WordHelper *wordsHelperArray, int arraySize);
 #endif //LAB6_123_MYFUNCTIONS_H

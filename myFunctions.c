@@ -73,6 +73,8 @@ int charComparator(const void *a, const void *b) {
 }
 
 char *getSortedSet(char *inputStr) {
+    if (inputStr == NULL) return NULL;
+    if (strlen(inputStr) == 0) return NULL;
     char *duplicateInputStr = strdup(inputStr);
     // sorting chars in word
     qsort(duplicateInputStr, strlen(duplicateInputStr), sizeof(duplicateInputStr[0]), charComparator);
@@ -80,6 +82,7 @@ char *getSortedSet(char *inputStr) {
     for (int i = 0; i < strlen(duplicateInputStr) - 1; i++) {
         if (duplicateInputStr[i] == duplicateInputStr[i + 1]) {
             for (int j = i; j < strlen(duplicateInputStr); ++j) duplicateInputStr[j] = duplicateInputStr[j + 1];
+            i -= 1;
         }
     }
     return duplicateInputStr;
@@ -137,4 +140,27 @@ void findRequiredWords(WordHelper *wordsArray, int wordsArraySize) {
             }
         }
     }
+}
+
+char *generateOutputString(WordHelper *wordsArray, int wordsArraySize) {
+    char *outputStr = calloc(5, sizeof(char));
+    int outputStrLen = 0;
+    for (int i = 0; i < wordsArraySize; ++i) {
+        if (wordsArray[i].isWordExist) {
+            outputStr = realloc(outputStr, (strlen(wordsArray[i].word) + outputStrLen + 2) * sizeof(char));
+            if (strlen(wordsArray[i].word) != 0) outputStr = strcat(outputStr, wordsArray[i].word);
+            outputStr = strcat(outputStr, " ");
+            outputStrLen = strlen(outputStr);
+        }
+    }
+    outputStr[strlen(outputStr) - 1] = '\0';
+    return outputStr;
+}
+
+void freeWordArray(WordHelper *wordsHelperArray, int arraySize) {
+    for (int i = 0; i < arraySize; ++i) {
+        free((wordsHelperArray)[i].word);
+        free((wordsHelperArray)[i].sortedCharSet);
+    }
+    free(wordsHelperArray);
 }
