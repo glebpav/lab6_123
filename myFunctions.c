@@ -55,7 +55,10 @@ void clearSpaces(List *list) {
 
     // clear space at first position
     if (list->head->symbol == ' ') {
-        list->head = list->head->next;
+        Node *buf = list->head->next;
+        free(list->head);
+        list->head = buf;
+        if (list->head == NULL) return;
     }
 
     // clear space at last position
@@ -65,7 +68,10 @@ void clearSpaces(List *list) {
         lastNode = thisNode;
         thisNode = thisNode->next;
     }
-    if (thisNode->symbol == ' ') lastNode->next = NULL;
+    if (thisNode->symbol == ' ') {
+        lastNode->next = NULL;
+        free(thisNode);
+    }
 }
 
 int charComparator(const void *a, const void *b) {
@@ -147,13 +153,14 @@ char *generateOutputString(WordHelper *wordsArray, int wordsArraySize) {
     int outputStrLen = 0;
     for (int i = 0; i < wordsArraySize; ++i) {
         if (wordsArray[i].isWordExist) {
+            if (wordsArray[i].word == NULL) continue;
             outputStr = realloc(outputStr, (strlen(wordsArray[i].word) + outputStrLen + 2) * sizeof(char));
             if (strlen(wordsArray[i].word) != 0) outputStr = strcat(outputStr, wordsArray[i].word);
             outputStr = strcat(outputStr, " ");
             outputStrLen = strlen(outputStr);
         }
     }
-    outputStr[strlen(outputStr) - 1] = '\0';
+    if (outputStrLen) outputStr[strlen(outputStr) - 1] = '\0';
     return outputStr;
 }
 
